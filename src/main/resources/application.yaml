@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: coroutines-concept-client
+server:
+  port: 8001
