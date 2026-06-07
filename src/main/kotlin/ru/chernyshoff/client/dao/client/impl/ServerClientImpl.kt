@@ -13,7 +13,7 @@ class ServerClientImpl(
     override suspend fun get(taskId: String): String =
         client
             .get()
-            .uri("/server/io/task/{taskId}", taskId)
+            .uri("http://server:8011/server/io/task/{taskId}", taskId)
             .retrieve()
             .bodyToMono(String::class.java)
             .awaitSingle()

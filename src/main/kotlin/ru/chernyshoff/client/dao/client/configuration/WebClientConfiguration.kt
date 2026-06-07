@@ -11,7 +11,6 @@ class WebClientConfiguration {
     fun webClient(): WebClient =
         WebClient
             .builder()
-            .baseUrl("http://localhost:8011")
             .defaultHeader("Accept", "application/json")
             .build()
 }
