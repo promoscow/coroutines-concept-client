@@ -1,7 +1,9 @@
 package ru.chernyshoff.client.service.impl
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -14,15 +16,22 @@ import ru.chernyshoff.client.service.ServerService
 @Service
 class ClientTasksStartingServiceImpl(
     private val service: ServerService,
-    @Value($$"${app.service-prefix}") private val servicePrefix: String
+    @Value($$"${app.service-prefix}") private val servicePrefix: String,
+    @Value($$"${app.requests-per-second}") private val requestsPerSecond: Int
 ) : ClientTasksStartingService {
 
     private val logger = KotlinLogging.logger { this::class.java }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(cron = "* * * * * *")
     override fun start() {
-        val traceId = "${servicePrefix}.${RandomStringUtils.secure().nextAlphanumeric(6)}"
-        logger.info { "Starting task: $traceId" }
-        runBlocking { service.trace(traceId) }.also { logger.info { "Result: $it" } }
+        CoroutineScope(Dispatchers.IO).launch {
+            (0 until requestsPerSecond).map { _ ->
+                launch {
+                    val traceId = "${servicePrefix}.${RandomStringUtils.secure().nextAlphanumeric(6)}"
+                    service.trace(traceId)
+                }
+            }
+        }
+        logger.info { "Started $requestsPerSecond tasks" }
     }
 }
