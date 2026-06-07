@@ -9,5 +9,5 @@ class ServerServiceImpl(
     private val client: ServerClient
 ) : ServerService {
 
-    override suspend fun get(taskId: String): String = client.get(taskId)
+    override suspend fun trace(traceId: String): String = client.trace(traceId)
 }

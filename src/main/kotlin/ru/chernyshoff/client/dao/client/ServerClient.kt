@@ -1,6 +1,9 @@
 package ru.chernyshoff.client.dao.client
 
+/**
+ * Клиент работы с компонентом Server.
+ */
 interface ServerClient {
 
-    suspend fun get(taskId: String): String
+    suspend fun trace(traceId: String): String
 }

@@ -3,3 +3,5 @@ spring:
     name: coroutines-concept-client
 server:
   port: 8001
+app:
+  service-prefix: client

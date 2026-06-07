@@ -10,10 +10,10 @@ class ServerClientImpl(
     private val client: WebClient
 ) : ServerClient {
 
-    override suspend fun get(taskId: String): String =
+    override suspend fun trace(traceId: String): String =
         client
             .get()
-            .uri("http://server:8011/server/io/task/{taskId}", taskId)
+            .uri("http://server:8011/server/io/trace/{traceId}", traceId)
             .retrieve()
             .bodyToMono(String::class.java)
             .awaitSingle()
