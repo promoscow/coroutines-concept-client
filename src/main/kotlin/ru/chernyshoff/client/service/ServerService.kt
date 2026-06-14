@@ -1,6 +1,8 @@
 package ru.chernyshoff.client.service
 
+import ru.chernyshoff.client.domain.Trace
+
 interface ServerService {
 
-    suspend fun trace(traceId: String): String
+    suspend fun trace(trace: Trace): Trace
 }

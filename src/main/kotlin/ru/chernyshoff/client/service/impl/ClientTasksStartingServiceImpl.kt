@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import ru.chernyshoff.client.domain.Trace
+import ru.chernyshoff.client.domain.type.ServiceType
 import ru.chernyshoff.client.service.ClientTasksStartingService
 import ru.chernyshoff.client.service.ServerService
 
@@ -27,8 +29,11 @@ class ClientTasksStartingServiceImpl(
         CoroutineScope(Dispatchers.IO).launch {
             (0 until requestsPerSecond).map { _ ->
                 launch {
-                    val traceId = "${servicePrefix}.${RandomStringUtils.secure().nextAlphanumeric(6)}"
-                    service.trace(traceId)
+                    val trace = Trace(
+                        traceId = "${servicePrefix}.${RandomStringUtils.secure().nextAlphanumeric(6)}",
+                        service = ServiceType.CLIENT
+                    )
+                    service.trace(trace)
                 }
             }
         }
