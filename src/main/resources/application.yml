@@ -4,6 +4,10 @@ spring:
   application:
     name: coroutines-concept-client
 server:
+  netty:
+    connection-timeout: 30000ms
+    idle-timeout: 60000ms
+    max-initial-line-length: 4096
   port: 8001
 management:
   endpoints:
@@ -17,3 +21,12 @@ management:
     distribution:
       percentiles-histogram:
         "[http.server.requests]": true
+reactor:
+  netty:
+    pool:
+      max-connections: 20000
+      acquire-timeout: 60000ms
+      max-idle-time: 60000ms
+      max-life-time: 300000ms
+  io-worker-count: 16
+  io-select-count: 2
