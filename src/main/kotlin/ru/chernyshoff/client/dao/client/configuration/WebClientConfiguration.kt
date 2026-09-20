@@ -34,8 +34,8 @@ class WebClientConfiguration {
         val connectionProvider =
             ConnectionProvider
                 .builder("server-connection-pool")
-                .maxConnections(50000)
-                .pendingAcquireMaxCount(100000)
+                .maxConnections(100000)
+                .pendingAcquireMaxCount(1000000)
                 .pendingAcquireTimeout(Duration.ofSeconds(60))
                 .maxIdleTime(Duration.ofSeconds(60))
                 .maxLifeTime(Duration.ofMinutes(5))
